@@ -10,7 +10,7 @@ fi
 
 # Tested on Ubuntu 24.04:
 if [ "$1" == "setup" ]; then
-  sudo apt install build-essential git cmake libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libfreetype6-dev libwebkitgtk-6.0-dev libgtk-3-dev
+  sudo apt install build-essential git cmake libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libfreetype6-dev libgtk-3-dev libasound2-dev
   exit
 fi
 
