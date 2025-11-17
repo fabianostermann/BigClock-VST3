@@ -1,0 +1,33 @@
+name: Windows Build
+
+on:
+  workflow_dispatch:   # Manuell starten
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Configure build
+        run: |
+          mkdir build
+          cd build
+          cmake .. -DCMAKE_BUILD_TYPE=Release -A x64
+
+      - name: Build project
+        run: |
+          cd build
+          cmake --build . --config Release --parallel
+
+      - name: Upload artefacts (BigClock Windows)
+        uses: actions/upload-artifact@v4
+        with:
+          name: BigClock-windows
+          path: |
+            build/BigClock_artefacts/Release/VST3/BigClock.vst3
+            build/BigClock_artefacts/Release/Standalone/BigClock.exe
