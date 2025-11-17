@@ -1,0 +1,41 @@
+name: Linux Build
+
+on:
+  workflow_dispatch:   # Manuell starten im GitHub UI
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install dependencies (JUCE + VST3 requirements)
+        run: |
+          sudo apt update
+          sudo apt install -y \
+            build-essential git cmake \
+            libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev \
+            libfreetype6-dev libwebkitgtk-6.0-dev libgtk-3-dev
+
+      - name: Configure build
+        run: |
+          mkdir -p build
+          cd build
+          cmake ..
+
+      - name: Build project
+        run: |
+          cd build
+          cmake --build . --config Release -j
+
+      - name: Upload artefacts (BigClock)
+        uses: actions/upload-artifact@v4
+        with:
+          name: BigClock-linux
+          path: |
+            build/BigClock_artefacts/Release/VST3/BigClock.vst3
+            build/BigClock_artefacts/Release/Standalone/BigClock
