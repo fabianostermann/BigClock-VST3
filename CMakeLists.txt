@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(ClockJuce VERSION 0.1.0)
+project(BigClock VERSION 0.1.0)
 
 
 set(CMAKE_CXX_STANDARD 17)
@@ -30,12 +30,12 @@ FetchContent_MakeAvailable(JUCE)
 set(CMAKE_CXX_STANDARD 17)
 
 # Plugin anlegen
-juce_add_plugin(ClockJuce
-COMPANY_NAME "FabianOstermann"
+juce_add_plugin(BigClock
+COMPANY_NAME "@FabianOstermann"
 PLUGIN_MANUFACTURER_CODE FAb1
 PLUGIN_CODE Clk1
 FORMATS VST3 Standalone
-PRODUCT_NAME "ClockJuce"
+PRODUCT_NAME "BigClock"
 IS_SYNTH FALSE
 NEEDS_MIDI_INPUT FALSE
 NEEDS_MIDI_OUTPUT FALSE
@@ -54,14 +54,14 @@ Source/ClockPluginEditor.h
 )
 
 
-target_sources(ClockJuce PRIVATE ${SOURCE_FILES})
+target_sources(BigClock PRIVATE ${SOURCE_FILES})
 
 set(JUCE_VST2_DISABLED TRUE)
 
 # JUCE Modul-Set
 
 
-target_link_libraries(ClockJuce
+target_link_libraries(BigClock
 PRIVATE
 juce::juce_audio_utils
 juce::juce_audio_processors
@@ -72,7 +72,7 @@ juce::juce_dsp
 )
 
 # Optional: Dinge deaktivieren, die du nicht brauchst (macht Build kleiner)
-target_compile_definitions(ClockJuce
+target_compile_definitions(BigClock
 PRIVATE
 JUCE_WEB_BROWSER=0
 JUCE_USE_CURL=0
@@ -80,4 +80,4 @@ JUCE_USE_CURL=0
 )
 
 # never copy builds
-set(JUCE_COPY_PLUGIN_AFTER_BUILD OFF CACHE BOOL "" FORCE)
+#set(JUCE_COPY_PLUGIN_AFTER_BUILD OFF CACHE BOOL "" FORCE)

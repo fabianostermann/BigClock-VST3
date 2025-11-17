@@ -21,6 +21,10 @@ private:
     ClockPluginProcessor& processorRef;
     juce::Label timeLabel;
 
+    juce::ResizableCornerComponent resizer { this, &resizeLimits };
+    juce::ComponentBoundsConstrainer resizeLimits;
+    void updateFontSize();
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ClockPluginEditor)
 };
 
