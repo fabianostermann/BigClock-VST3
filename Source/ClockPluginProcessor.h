@@ -15,14 +15,14 @@ public:
     float getDefaultValue() const override             { return 0.0f; }
 
     juce::String getName(int maxLen) const override
-        { return juce::String("Current Time").substring(0, maxLen); }
+        { return juce::String("Time").substring(0, maxLen); }
 
     juce::String getLabel() const override             { return {}; }
     juce::String getText(float, int) const override
         { return juce::Time::getCurrentTime().formatted("%H:%M:%S"); }
     float getValueForText(const juce::String&) const override { return 0.0f; }
 
-    bool isAutomatable()  const override               { return false; }
+    bool isAutomatable()  const override               { return true; }
     bool isDiscrete()     const override               { return false; }
     bool isBoolean()      const override               { return false; }
 
