@@ -11,15 +11,22 @@ ClockPluginProcessor::ClockPluginProcessor()
 #endif
       )
 {
+    // addParameter() transfers ownership; we keep a bare pointer for access.
+    auto* p = new TimeDisplayParameter();
+    addParameter(p);
+    timeParam = p;
+
+    // Prime the value immediately so hosts see something on load.
+    timeParam->tick();
 }
 
-void ClockPluginProcessor::prepareToPlay(double, int)
+void ClockPluginProcessor::prepareToPlay(double sampleRate, int /*samplesPerBlock*/)
 {
+    currentSampleRate   = sampleRate;
+    samplesSinceLastTick = 0;
 }
 
-void ClockPluginProcessor::releaseResources()
-{
-}
+void ClockPluginProcessor::releaseResources() {}
 
 #ifndef JucePlugin_PreferredChannelConfigurations
 bool ClockPluginProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const
@@ -30,12 +37,10 @@ bool ClockPluginProcessor::isBusesLayoutSupported(const BusesLayout& layouts) co
 #else
     if (layouts.getMainOutputChannelSet() != juce::AudioChannelSet::stereo())
         return false;
-
    #if !JucePlugin_IsSynth
     if (layouts.getMainOutputChannelSet() != layouts.getMainInputChannelSet())
         return false;
    #endif
-
     return true;
 #endif
 }
@@ -48,6 +53,16 @@ void ClockPluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
 
     for (int ch = 0; ch < buffer.getNumChannels(); ++ch)
         buffer.clear(ch, 0, buffer.getNumSamples());
+
+    // Tick the time parameter roughly once per second.
+    samplesSinceLastTick += buffer.getNumSamples();
+    int samplesPerSecond = static_cast<int>(currentSampleRate);
+
+    if (samplesSinceLastTick >= samplesPerSecond)
+    {
+        samplesSinceLastTick -= samplesPerSecond;
+        timeParam->tick();
+    }
 }
 
 juce::AudioProcessorEditor* ClockPluginProcessor::createEditor()
@@ -69,4 +84,3 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new ClockPluginProcessor();
 }
-
