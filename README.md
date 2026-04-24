@@ -1,5 +1,8 @@
 # BigClock-VST3
-Attempt to reimplement BigClock with Juce as VST3 plugin. This plugin just displays the current wall clock time, which sometimes is beneficial in recording sessions and live performances.
+Attempt to reimplement BigClock with Juce as VST3 plugin.
+
+This plugin just displays the current wall clock time,\
+which is of use in recording sessions and live performances.
 
 Linux and Windows binaries are available from the [Release page](https://github.com/fabianostermann/BigClock-VST3/releases).
 
